@@ -1,0 +1,87 @@
+--Função escalares - todas as funções retornam um unico valor...
+
+--Funções de texto
+
+UPPER / LOWER / INITCAP - Maiusculo/ Minusculo / Primeira maiuscula
+TRIM / LTRIM / RTRIM - Retirar espaços (antes e depois)
+TRANSLATE / REPLACE - Substituir informações
+INSTR / SUBSTR - Posição do texto
+LENGTH  - tamanho do texto
+
+
+CREATE TABLE mensagens (codigo CHAR(2), texto VARCHAR(200));
+CREATE TABLE destinatarios (codigo INTEGER, nome VARCHAR(200));
+CREATE TABLE enviados (codigo INTEGER, codigo_mensagem CHAR(2));
+
+INSERT INTO mensagens VALUES ('DE', '[NOME] Você ganhou um desconto de 10%.');
+INSERT INTO mensagens VALUES ('AN', 'parabens [NOME] aniversario .');
+INSERT INTO destinatarios VALUES(1, 'maria');
+INSERT INTO destinatarios VALUES(2, 'joao');
+
+
+/*
+1- Selecione os destinarios alterando a descrição para Maiusculo,
+    e outra coluna com o texto em Primeira Maiscula
+*/
+
+SELECT codigo, nome AS nome,
+    UPPER(nome)AS maiusculo,
+    INITCAP(nome)as pri_maiuscula
+ FROM destinatarios;
+ 
+ 
+ UPDATE destinatarios SET nome = INITCAP(nome)
+ WHERE codigo  = 1;
+ 
+ SELECT * FROM destinatarios;
+ 
+ 
+ UPDATE destinatarios SET nome = 'Joao'
+ WHERE codigo  = 2;
+ 
+ SELECT * FROM destinatarios;
+ 
+ SELECT * FROM enviados;
+ INSERT INTO enviados VALUES (1, 'DE');
+ INSERT INTO enviados VALUES (2, 'AN');
+ 
+
+SELECT nome,texto,  REPLACE (texto , '[DATA]', '17/10/2025') as mensagem_corrigida
+FROM enviados tab_a
+INNER JOIN destinatarios tab_b ON ( tab_a.codigo = tab_b.codigo)
+INNER JOIN mensagens tab_c ON tab_c.codigo = tab_a.codigo_mensagem
+WHERE tab_a.codigo_mensagem = '17'
+ 
+ 
+SELECT nome,texto,  REPLACE (texto , '[NOME]', nome) as mensagem_corrigida
+ 
+SELECT REPLACE ('[NOME] Feliz aniversário','[NOME]', 'MARIA') 
+SELECT REPLACE ('[DATA] Não haverá aula', '[DATA]' , '17')
+
+UPDATE mensagens SET texto = '[DATA] Não haverá aula.'
+WHERE codigo  = '17'
+ 
+ 
+ -- ALTERE o texto na tabela de mensagens para "nome feliz aniversario"
+ 
+ UPDATE mensagens SET texto  = '[NOME] feliz aniversario'
+ WHERE codigo = 'AN'
+ 
+ 
+ INSERT INTO mensagens VALUES ('17',  'Não haverá aula.')
+ 
+ INSERT INTO enviados 
+ SELECT codigo, '17' as codigo_mensagem FROM destinatarios
+ 
+    
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ON tabelaA.codigo = tabelaB.codigo
