@@ -1,0 +1,12 @@
+<li>
+  <NavLink
+    to="/integrantes"
+    className={({ isActive }) =>
+      isActive
+        ? "border-b-2 border-white text-white"
+        : "text-gray-200 hover:text-white"
+    }
+  >
+    Integrantes
+  </NavLink>
+</li>
