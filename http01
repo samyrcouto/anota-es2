@@ -1,0 +1,26 @@
+from flask import Flask
+
+app = Flask(__name__)  # CORRETO: são dois underscores antes e dois depois
+
+@app.route('/hello')
+def hello_world():
+    return '<h1>Hello World</h1>'
+
+@app.route('/python')
+def hello_python():
+    return '<h1>Hello Python</h1>'
+
+@app.route('/hello/<nome>')  # parâmetro tipo string
+def hello_name(nome):
+    return f'<h1>Olá, {nome}!</h1>'
+
+@app.route('/soma/<int:n1>/<int:n2>')  # parâmetros inteiros
+def soma(n1, n2):
+    return f'A soma de {n1} com {n2} é {n1 + n2}'
+
+@app.route('/rev/<float:r>')  # parâmetro float
+def set_versao(r):
+    return f'Versão: {r}'
+
+if __name__ == '__main__':  # CORRETO: __name_ e _main_
+    app.run(debug=True)  # "debug=True" ajuda no desenvolvimento
