@@ -1,0 +1,47 @@
+import requests
+import json
+
+def consultarCep(cep):
+    print('\n\nConsultando cep ...\n\n')
+
+    try:
+        response = requests.get(f'https://viacep.com.br/ws/{cep}/json')
+        status = response.status_code
+
+        if status == 200:
+            data = response.json()
+
+            if 'erro' in data:
+                print(f'\n[ERRO]: CEP não encontrado ou inválido.')
+                return None
+
+            return data
+
+        else:
+            print(f'\n[ERRO]: Falha na requisição.\nSTATUS_CODE: {status}')
+
+            return None
+        
+    except requests.exceptions.RequestException as e:
+        print(f'\n[ERRO]: Conexão com a API não estabelecida: {e}')
+        return None
+    
+    except Exception as e:
+        print(f'\nERRO]: Erro ao buscar CEP: {e}')
+        return None
+    
+def main():
+    print('-' * 20)
+    print(f'BUSCADOR DE ENDEREÇOS')
+    print('-' * 20)
+
+    endereco = consultarCep(input('Informe o CEP do endereço que deseja consultar.\nCEP: '))
+    
+    if endereco != None:
+        print('-' * 20)
+        print('ENDEREÇO ENCONTRADO')
+        print('-' * 20)
+
+        print(f'{endereco.get("logradouro")}, {endereco.get("bairro")}. {endereco.get("localidade")}, {endereco.get("estado")} - {endereco.get("uf")}. {endereco.get("cep")}.')
+
+main()
