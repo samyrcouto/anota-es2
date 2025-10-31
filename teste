@@ -1,0 +1,73 @@
+import React from "react";
+
+const integrantes = [
+  {
+    nome: "Samyr",
+    rm: "12345",
+    github: "https://github.com/seuusuario",
+    linkedin: "https://linkedin.com/in/seuusuario",
+    foto: "https://via.placeholder.com/150",
+  },
+  {
+    nome: "João da Silva",
+    rm: "54321",
+    github: "https://github.com/joaodasilva",
+    linkedin: "https://linkedin.com/in/joaodasilva",
+    foto: "https://via.placeholder.com/150",
+  },
+  {
+    nome: "Maria Oliveira",
+    rm: "67890",
+    github: "https://github.com/mariaoliveira",
+    linkedin: "https://linkedin.com/in/mariaoliveira",
+    foto: "https://via.placeholder.com/150",
+  },
+];
+
+export default function Integrantes() {
+  return (
+    <section className="py-12 bg-gray-50 min-h-screen flex flex-col items-center">
+      <h2 className="text-4xl font-bold text-center mb-10 text-indigo-700">
+        Integrantes do Projeto
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 px-8 w-full max-w-6xl">
+        {integrantes.map((pessoa) => (
+          <div
+            key={pessoa.rm}
+            className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-2xl hover:scale-105 transition-transform duration-300"
+          >
+            <img
+              src={pessoa.foto}
+              alt={pessoa.nome}
+              className="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-indigo-500"
+            />
+            <h3 className="text-xl font-semibold text-gray-800">{pessoa.nome}</h3>
+            <p className="text-gray-500 mb-3">RM: {pessoa.rm}</p>
+
+            <div className="flex flex-col items-center gap-3 mt-4">
+              <a
+                href={pessoa.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition flex items-center gap-2"
+              >
+                <i className="fa-brands fa-github"></i>
+                <span>Ver GitHub</span>
+              </a>
+              <a
+                href={pessoa.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+              >
+                <i className="fa-brands fa-linkedin"></i>
+                <span>Ver LinkedIn</span>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
