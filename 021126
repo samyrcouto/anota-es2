@@ -1,0 +1,63 @@
+aula  110226
+
+
+ativar servidor de saida de dados
+set serveroutput on
+desabilitar feedback de variaveis 
+set verify off
+
+begin 
+    dbms_output.put_line(10);
+end;  
+
+begin
+    dbms_output.put_line(10 * 10);
+end;
+
+Variaveis com cocatenação
+    
+declare 
+    v_cod number(1):= 1;
+    v_nome varchar(10) :='Samyr';
+    begin
+    dbms_output.put_line(v_cod);
+    dbms_output.put_line(v_nome);
+    dbms_output.put_line(v_cod||' - '||v_nome); 
+end;
+    
+declare
+    v_valor1 number(2) := 10;
+    v_valor2 v_valor1%type :=10;
+    begin
+    dbms_output.put_line(v_valor1 + v_valor2);
+    end;
+
+declare
+
+    v_valor1 number(2) := 10;
+    v_valor2 v_valor1%type :=10;
+    v_valor3 v_valor1%type;
+    begin
+    v_valor3 :=v_valor1 + v_valor2;
+    dbms_output.put_line('A soma entre valor 1 e 2 é:' ||v_valor3);
+end;
+
+declare 
+    v_valor1 number(2) := &valor1;
+    v_valor2 v_valor1%type := &valor2:
+    v_valor3 v_valor1%type := v_valor + v_valor2;
+    begin
+    dbms_output.put_line('A soma entre valor 1 e 2 é: '||v_valor3);
+    end;
+    
+    
+    
+declare
+    v_valor1 number(2) := &valor1;
+    v_valor2 v_valor1%type := &valor2;
+    v_valor3 v_valor1%type := &valor3;
+    v_valor4 v_valor1%type := &valro4;
+    v_media v_valor1%type := (v_valor1 + v_valor2+ v_valor3 +v_valor4) / 4;
+    begin
+    dbms_output.put_line('A media é'||v_media);
+    end;
