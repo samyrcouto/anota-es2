@@ -1,0 +1,146 @@
+const add =  (a , b) => a+b;
+const subt = (a , b) => a - b;
+const mult = (a , b) => a * b;
+const div =  (a , b) => a/b;
+
+console.log("Soma: ", add(2,2))
+console.log("Subtração: ", subt(2,2))
+console.log("Multiplicação: ", mult(5,5))
+console.log("Divisão: ", div(6,3))
+
+
+//destruct
+const pessoa ={
+    nome: "Felipe",
+    idade: 22,
+    endereco:{
+        logradouro:"Aven. Paulista",
+        numero: 5000
+    }
+}
+
+//Identificadores
+const{ nome:n, idade:i} = pessoa
+console.log("Nome: " +n ,"", "Idade:" +i)
+
+//Array
+const{endereco:{numero}} = pessoa
+
+console.log(numero)
+
+//array
+alunos = ["Fernando", "Beatriz", "Alan", "Rebeca"]
+console.log(alunos)
+
+//Colocando na lista
+alunos.push("Caio")
+console.log(alunos)
+
+//Ordenando os itens em ordem alfabetica
+alunos.sort()
+console.log(alunos)
+
+//deletando um item no array
+delete alunos[2]
+console.log(alunos)
+
+//deletando o ultimo item da lista
+alunos.pop()
+console.log(alunos)
+
+//deletando o primeiro item da lista
+alunos.shift()
+console.log(alunos)
+
+//Utilizando a função splice(apagar um intervalo do array)
+alunos01= ["Fernando", "Beatriz", "Alan", "Rebeca"]
+
+
+
+console.log(alunos01)
+
+alunos01.push("Caio")
+console.log(alunos01)
+
+alunos01.splice(2,4)
+console.log(alunos01)
+
+//Extraind uma parte do Array(Fernando e beatriz)
+
+algunsAlunos = alunos01.slice(0 ,2)
+console.log(algunsAlunos)
+
+
+alunos02= ["Fernando", "Beatriz", "Alan", "Rebeca"]
+
+alunos02.forEach(function(nome, indice){
+    console.log(nome,indice)
+
+})
+
+
+
+//filter
+const carros =[
+    {modelo:"Strada", preco: 70000, ano:2020},
+    {modelo:"Palio", preco: 20000, ano:1990},
+    {modelo:"Saveiro", preco: 40000, ano:2001},
+    {modelo:"Gol", preco: 80000, ano:2023},
+    {modelo:"Mobi", preco: 55000, ano:2003},
+    {modelo:"Kwid", preco: 85000, ano:2024},
+
+]
+
+const valor = carros.filter((i)=>{
+        return i.preco >50000
+});
+
+console.log(valor)
+
+//filter
+
+meu_array = [ 1,2,3,4,5,6,7,8,9]
+
+const par = meu_array.filter((i) =>{
+    return i %2 ==0
+})
+
+console.log(par)
+
+const impar = i => i % 2 ==1
+console.log(meu_array.filter(impar))
+
+const ano = carros.filter((i) =>{
+    return i.ano >= 2022
+})
+
+
+console.log(ano)
+
+const anno  = i => i.ano > 2022
+console.log(carros.filter(anno))
+
+
+////////////////////////////////////
+//destructuring
+const colaboradores=[
+{nome:"João", idade:25, profissao:"Desenvolvedor"},
+{nome:"Maria", idade:17, profissao:"Designer"},
+{nome:"Carlos", idade:30, profissao:"Desenvolvedor"},
+{nome:"Ana", idade:22, profissao:"Desenvolvedor"},
+]
+
+
+
+const idade = colaboradores.filter((i)=>{
+    return i.profissao and i.idade > 18
+})
+
+
+const{colaboradores:profissao = "Desenvolvedor"} = colaboradores.filter((i)=>{
+    return i.idade >=18 
+}
+)
+    
+console.log(desenvolvedores)
+
