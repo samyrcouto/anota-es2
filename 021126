@@ -60,4 +60,19 @@ declare
     v_media v_valor1%type := (v_valor1 + v_valor2+ v_valor3 +v_valor4) / 4;
     begin
     dbms_output.put_line('A media é'||v_media);
-    end;
+    end;    
+
+
+'''   
+   
+Declare Begin Exception End
+    '''
+
+  
+
+tratamentos de erros
+tipos de variaveis
+estrutura de decisao
+estrutura de repetiçao 
+
+
