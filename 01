@@ -1,0 +1,65 @@
+set serveroutput on
+set verify off
+
+/*
+EXERCICIO 01 – Criar um bloco PL-SQL para calcular o valor do novo 
+salário mínimo que deverá ser de 25% em cima do atual, que é de R$
+???*/    
+declare
+    v_salario  number(6,2) := &valor1;
+    v_salario02   v_salario%type;
+begin
+    v_salario02 := v_salario + (v_salario * 0.25);
+
+    dbms_output.put_line('O salário atual é: ' || v_salario02);
+end;  
+/*
+EXERCÍCIO 02 – Criar um bloco PL-SQL para calcular o valor em 
+REAIS de 45 dólares, sendo que o valor do câmbio a ser considerado 
+é de R$ ??? no qual estes valores deverão ser constantes dentro do 
+bloco.
+*/
+declare
+    v_dolar number(5,2):= 45;
+    v_real v_dolar%type := &valor2;
+    v_conversao v_dolar%type;
+    
+    begin
+    v_conversao := (v_dolar * v_real); 
+
+    
+    dbms_output.put_line('O dolar atual é: ' || v_conversao);
+    
+end;
+/*
+EXERCÍCIO 03 – Criar um bloco PL-SQL para converter em REAIS os 
+dólares informados, sendo que o valor do Câmbio a ser considerado é 
+de ????.
+*/
+
+declare
+    v_dolar number(5,2):= &valor1;
+    v_real v_dolar%type := &valor2;
+    v_conversao v_dolar%type;
+    
+    begin
+    v_conversao := (v_dolar * v_real); 
+
+    
+    dbms_output.put_line('O dolar atual é: ' || v_conversao);
+    
+end;
+
+/*
+EXERCÍCIO 04 – Criar um bloco PL-SQL para calcular o valor das 
+parcelas de uma compra de um carro, nas seguintes condições: 
+OBSERVAÇÃO: 
+1 - Parcelas para aquisição em 10 pagamentos. 
+2 - O valor total dos juros é de 3% e deverá ser aplicado sobre o 
+montante financiado 
+3 – No final informar o valor de cada parcela.
+*/
+
+declare
+    v_pagamentos number(5,2) := &pagamentos;
+    v_juros v_pagamentos%type := 3%;
