@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,400..900&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>html,body{margin:0;background:#000}canvas{display:block}</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script src="node_modules/d3-array/dist/d3-array.min.js"></script>
+<script src="node_modules/d3-geo/dist/d3-geo.min.js"></script>
+<script src="node_modules/topojson-client/dist/topojson-client.min.js"></script>
+<script src="engine.js"></script>
+<script src="engine_roma.js"></script>
+<script src="scenes_r1.js"></script>
+<script src="scenes_r2.js"></script>
+<script>
+window.ready=(async()=>{
+  const world=await (await fetch('node_modules/world-atlas/countries-50m.json')).json();
+  const land=await (await fetch('node_modules/world-atlas/land-50m.json')).json();
+  const rivers=await (await fetch('rivers.json')).json();
+  RM=await (await fetch('romemaps.json')).json();
+  try{SUBS=await (await fetch('subs2.json?'+Date.now())).json();}catch(e){SUBS=[]}
+  GEO={land:topojson.feature(land,land.objects.land),countries:topojson.feature(world,world.objects.countries).features,mesh:topojson.mesh(world,world.objects.countries,(a,b)=>a!==b),rivers};
+  await document.fonts.ready;
+  let PL=null;if(!location.search.includes('raw')){try{PL=await (await fetch('plan2.json?'+Date.now())).json();}catch(e){PL=null}}
+  if(!PL||location.search.includes('raw'))SUBS=location.search.includes('raw')?[]:SUBS;
+  let acc=0; S.forEach((s,i)=>{const p=PL&&PL[i];s.f=p?p.f:1;s.dd=p?p.len:s.d;s.start=p?p.start:acc;acc=s.start+s.dd;s.i=i});
+  window.TOTAL=acc; return {total:acc,n:S.length,secs:[...new Set(S.map(s=>s.sec))]};
+})();
+window.renderScene=(i,t)=>{const s=S[i];ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;ctx.setLineDash([]);ctx.letterSpacing='0px';s.draw(Math.min(t/s.f,s.d-1e-3),s.d);ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;ctx.letterSpacing='0px';if(window.SHOW_SUBS!==false)drawSubs(s.start+t);};
+window.sceneList=()=>S.map(s=>({sec:s.sec,d:s.dd,start:s.start,a:s.a===undefined?'':s.a}));
+</script></body></html>
