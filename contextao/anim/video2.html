@@ -23,6 +23,18 @@ window.ready=(async()=>{
   let acc=0; S.forEach((s,i)=>{const p=PL&&PL[i];s.f=p?p.f:1;s.dd=p?p.len:s.d;s.start=p?p.start:acc;acc=s.start+s.dd;s.i=i});
   window.TOTAL=acc; return {total:acc,n:S.length,secs:[...new Set(S.map(s=>s.sec))]};
 })();
-window.renderScene=(i,t)=>{const s=S[i];ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;ctx.setLineDash([]);ctx.letterSpacing='0px';s.draw(Math.min(t/s.f,s.d-1e-3),s.d);ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;ctx.letterSpacing='0px';if(window.SHOW_SUBS!==false)drawSubs(s.start+t);};
+FX.outline = true; FX.life = true; window.ROMAN = true;
+const mk = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; };
+const offA = mk(), offB = mk(), cA = offA.getContext('2d'), cB = offB.getContext('2d');
+const GR = document.createElement('canvas'); GR.width = GR.height = 256; { const g = GR.getContext('2d'), im = g.createImageData(256, 256); let s = 7; for (let i = 0; i < im.data.length; i += 4) { s = (s * 16807) % 2147483647; const v = s % 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; } g.putImageData(im, 0, 0); }
+function drawRaw(i, t, target) { ctx = target; const s = S[i]; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.setLineDash([]); ctx.letterSpacing = '0px';
+  const kb = 1 + .035 * Math.min(1, t / Math.max(1, s.dd)); ctx.translate(W / 2, H / 2); ctx.scale(kb, kb); ctx.translate(-W / 2, -H / 2);
+  s.draw(Math.min(t / s.f, s.d - 1e-3), s.d); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; }
+window.renderScene = (i, t) => { const s = S[i]; GT = s.start + t; const TR = .45;
+  if (i > 0 && t < TR) { drawRaw(i - 1, S[i - 1].dd - .001, cA); drawRaw(i, t, cB); ctx = MAINCTX; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.drawImage(offA, 0, 0); ctx.globalAlpha = ease(t / TR); ctx.drawImage(offB, 0, 0); ctx.globalAlpha = 1; }
+  else drawRaw(i, t, MAINCTX);
+  ctx = MAINCTX; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.letterSpacing = '0px';
+  const f = Math.floor(GT * 25); ctx.save(); ctx.globalAlpha = .045; ctx.globalCompositeOperation = 'overlay'; const pat = ctx.createPattern(GR, 'repeat'); ctx.translate((f * 73) % 256, (f * 41) % 256); ctx.fillStyle = pat; ctx.fillRect(-256, -256, W + 512, H + 512); ctx.restore();
+  if (window.SHOW_SUBS !== false) drawSubs(GT); };
 window.sceneList=()=>S.map(s=>({sec:s.sec,d:s.dd,start:s.start,a:s.a===undefined?'':s.a}));
 </script></body></html>
