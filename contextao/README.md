@@ -36,20 +36,22 @@ python3 -m http.server 8790     # deixe rodando em outro terminal
 PAGE=video2.html KEYS=keys2 node keys.js
 python3 sheet2.py 0 24 previa.jpg keys2
 
-# 2) Narração: gere o áudio do roteiro de voz (ElevenLabs, voz "Nassif") e salve como voz/full.mp3.
-#    Depois alinhe cada palavra ao texto (usa faster-whisper):
-cd .. && python3 voz/align_full.py
+# 2) Narração: gere o áudio do roteiro de voz (ElevenLabs, voz "Nassif") e alinhe cada palavra ao texto (faster-whisper)
+cd .. && python3 voz/align_any.py voz/roteiro_video02.json voz2/full.mp3 voz2/words.json
 
-# 3) Sincronização: prende cada cena à sua frase e gera o plano, as legendas e a lista de trechos de áudio
-python3 voz/build_timing.py
+# 3) Sincronização: prende cada cena à sua frase (campo `a` de cada cena) e gera o plano, as legendas e os trechos de áudio
+#    (a lista de cenas vem de anim/scenelist2_orig.json, exportada da página com ?raw)
+python3 voz/build_timing_any.py voz2/words.json anim/scenelist2_orig.json voz2/full.mp3 anim/plan2.json anim/subs2.json voz2/segs.json
 
-# 4) Renderização (4 processos em paralelo, um arquivo por capítulo)
+# 4) Renderização (4 processos em paralelo, um arquivo por capítulo) e junção dos capítulos
 cd anim && PAGE=video2.html node render_all.js ../saida
+cd ../saida && ffmpeg -f concat -safe 0 -i lista.txt -c copy video_mudo.mp4
+
+# 5) Narração dentro do vídeo (com pausa nos títulos de capítulo e volume no padrão do YouTube)
+cd .. && python3 voz/mux.py voz2/full.mp3 voz2/segs.json saida/video_mudo.mp4 Contextao-02-FINAL.mp4
 ```
 
-Depois, junte os capítulos com `ffmpeg -f concat` e coloque a faixa de narração (veja o histórico do vídeo 01 em `voz/segs.json`).
-
-**Atenção:** `voz/align_full.py` e `voz/build_timing.py` ainda estão escritos para o vídeo 01 (arquivo `voz/curto.json` e âncoras fixas). No vídeo 02, as âncoras ficam no campo `a` de cada cena.
+Os scripts `voz/align_full.py` e `voz/build_timing.py` são as versões usadas no vídeo 01 (âncoras fixas no código). Do vídeo 02 em diante, use as versões `_any`.
 
 ## Regras do canal (para não ser visto como conteúdo "inautêntico")
 
